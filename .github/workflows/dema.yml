@@ -1,25 +1,24 @@
 name: getdata
 
 on:
+  push:
+    branches:
+      - master
+
   workflow_dispatch:
-  schedule:
-    - cron: "*/30 * * * *"
+
+concurrency:
+  group: getdata
+  cancel-in-progress: false
 
 jobs:
-  get-weather:
+  test:
+    name: Test Workflow
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run weather service
-        run: python -m src.weather.service
+      - name: Test
+        run: echo "GitHub Actions is working!"
